@@ -12,6 +12,10 @@ import { ErrorsInterceptor } from './errors.interceptor';
 import { AuthModule } from './auth/auth.module';
 import { FileModule } from './file/file.module';
 import { CategoryModule } from './category/category.module';
+import { UserModule } from './user/user.module';
+import { FirebaseModule } from './firebase/firebase.module';
+import { HistoryModule } from './history/history.module';
+import { CoinModule } from './coin/coin.module';
 
 @Module({
   imports: [
@@ -30,7 +34,7 @@ import { CategoryModule } from './category/category.module';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    AdminModule, QuizModule,AuthModule,FileModule, CategoryModule],
+    AdminModule, QuizModule,AuthModule,FileModule, CategoryModule, UserModule, FirebaseModule, HistoryModule, CoinModule],
   controllers: [AppController],
   providers: [
       {

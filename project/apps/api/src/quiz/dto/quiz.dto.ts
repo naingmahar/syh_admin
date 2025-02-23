@@ -40,6 +40,9 @@ export class CreateQuizDto {
 export class FindQuizDto{
   @ApiProperty()
   category: string;
+
+  @ApiProperty()
+  skip: number;
 }
 
 export class QuizDto {

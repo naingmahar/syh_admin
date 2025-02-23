@@ -19,10 +19,11 @@ export class QuizController {
       return this.quizService.createQuiz({...createQuizDto,...{admin:authUser.userId}});
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOperation({ summary: 'Get Quiz' })
     getQuizzesByCategories(@Query() findQuizDto:FindQuizDto) {
       console.log("FIND",{category:parseInt(findQuizDto.category||"0")})
-      return this.quizService.findAll({category:parseInt(findQuizDto.category||"0")},0);
+      return this.quizService.findAll({category:parseInt(findQuizDto.category||"0")},findQuizDto.skip);
     }
 }

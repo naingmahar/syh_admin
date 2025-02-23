@@ -4,6 +4,8 @@ import { Quiz } from './model/quiz.model';
 import { Repository } from 'typeorm';
 import { CreateQuizDto, QuizDto } from './dto/quiz.dto';
 import { IQuiz } from './interface/quiz';
+import { IPagination } from 'src/utils/paginationTemplate';
+import { HistoryService } from 'src/history/history.service';
 
 @Injectable()
 export class QuizService {
@@ -11,10 +13,31 @@ export class QuizService {
   constructor(
     @InjectRepository(Quiz)
     private quizRepository: Repository<Quiz>,
+    private readonly historyService:HistoryService,
   ) {}
 
-  findAll(param:any,skip:number): Promise<Quiz[]> {
-    return this.quizRepository.find({where:param,skip:0,take:10});
+  async findAll(param:any,skip:number): Promise<IPagination<Quiz[]>> {
+    try {
+      const quizzes = await this.quizRepository.find({where:param,skip:skip||0,take:5});
+      const quizCount = await this.quizRepository.count({where:param});
+      return {
+        data:quizzes,
+        limit:5,
+        skip,
+        index:0,
+        id:0,
+        total:quizCount
+      }
+    } catch (error) {
+      return {
+        data:[],
+        limit:5,
+        index:0,
+        id:0,
+        skip,
+        total:0
+      }
+    }
   }
 
   findById(id: number): Promise<Quiz | null> {
