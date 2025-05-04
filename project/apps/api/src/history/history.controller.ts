@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HistoryService } from './history.service';
-import { CreatHistoryDto } from './dto/history.dto';
+import { CreatHistoryDto, GetHistoryDto } from './dto/history.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AuthUser } from 'src/auth/auth.decoder';
 import { IAuth } from 'src/auth/type/auth';
@@ -25,5 +25,13 @@ export class HistoryController {
     @ApiOperation({ summary: 'Get all categories' })
     get(@AuthUser() authUser: IAuth) {
       return this.historyService.getViewCountByDate(String(authUser.userId));
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("/dashboard")
+    @ApiOperation({ summary: 'Get History' })
+    // getDashboard(@AuthUser() authUser: IAuth) {
+    getDashboard(@AuthUser() authUser: IAuth,@Query() query:GetHistoryDto) {
+      return this.historyService.getDshboard(authUser.userId || String(query.user),String(query.date));
     }
 }

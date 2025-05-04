@@ -30,4 +30,9 @@ export class CoinService {
         
         return {updated:true}
     }
+
+    async getCoinByUserId(user:String){
+        const old = await this.coinRepository.findOne({where:{user:user.toString()}})
+        return old.amount
+    }
 }

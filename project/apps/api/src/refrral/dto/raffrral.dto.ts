@@ -5,21 +5,12 @@ export class CreatHistoryDto {
   id: number;
 
   @ApiProperty()
-  coin: number;
+  user: string;
 
   @ApiProperty()
-  quiz: string;
+  helper: string;
 
   @ApiProperty()
   createdAt: Date
-}
-
-
-export class GetHistoryDto {
-  @ApiProperty()
-  user: number;
-
-  @ApiProperty()
-  date: string;
 }
 

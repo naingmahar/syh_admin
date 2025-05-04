@@ -16,6 +16,7 @@ import { UserModule } from './user/user.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { HistoryModule } from './history/history.module';
 import { CoinModule } from './coin/coin.module';
+import { RefrralModule } from './refrral/refrral.module';
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { CoinModule } from './coin/coin.module';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    AdminModule, QuizModule,AuthModule,FileModule, CategoryModule, UserModule, FirebaseModule, HistoryModule, CoinModule],
+    AdminModule, QuizModule,AuthModule,FileModule, CategoryModule, UserModule, FirebaseModule, HistoryModule, CoinModule, RefrralModule],
   controllers: [AppController],
   providers: [
       {

@@ -22,7 +22,7 @@ export class UserService {
         return this.usersRepository.findOneBy({ id });
       }
     
-      async createUser(user:CreateUserDto): Promise<User | null>{
+      async createUser(user:CreateUserDto): Promise<any>{
         const saveUser =  await this.usersRepository.save(user);
         const res= await this.authService.generateToken(saveUser.name,String(saveUser.id),saveUser.phone)
         return {...saveUser,...{token:res.access_token}}

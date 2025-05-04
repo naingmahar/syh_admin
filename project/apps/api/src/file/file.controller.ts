@@ -128,13 +128,16 @@ import { IAuth } from 'src/auth/type/auth';
   
     @Post('upload')
     @UseInterceptors(FileInterceptor('file'))
-    async putFile(@Req() req,@UploadedFile() file, @Body() body:UploadFileDTO, @AuthUser() authUser: IAuth) {
+    async putFile(@Req() req,@UploadedFile() file, @Body() body:UploadFileDTO) {
       try { 
+        console.log("REQ","I GET IT")
+        console.log("REQ file",file)
         const serviceRes = await this.fileService.fileUpload(file,body.path,body.key);
         // this.fileService.saveFile(body.key,body.path,authUser.userId)
         return serviceRes;
       } catch (error) {
-        throw new Error(error)
+        console.log("Errror",error)
+        return new Error(error)
       }
     }
 

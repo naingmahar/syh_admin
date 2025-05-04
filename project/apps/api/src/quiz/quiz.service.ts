@@ -17,12 +17,13 @@ export class QuizService {
   ) {}
 
   async findAll(param:any,skip:number): Promise<IPagination<Quiz[]>> {
+    const dataLimit = 20
     try {
-      const quizzes = await this.quizRepository.find({where:param,skip:skip||0,take:5});
+      const quizzes = await this.quizRepository.find({where:param,skip:skip||0,take:dataLimit});
       const quizCount = await this.quizRepository.count({where:param});
       return {
         data:quizzes,
-        limit:5,
+        limit:dataLimit,
         skip,
         index:0,
         id:0,
@@ -31,7 +32,7 @@ export class QuizService {
     } catch (error) {
       return {
         data:[],
-        limit:5,
+        limit:dataLimit,
         index:0,
         id:0,
         skip,

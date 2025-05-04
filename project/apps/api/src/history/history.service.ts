@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreatHistoryDto } from './dto/history.dto';
 import { CoinService } from 'src/coin/coin.service';
 import * as moment from 'moment';
+import { groupBy } from 'rxjs';
 
 @Injectable()
 export class HistoryService {
@@ -55,5 +56,33 @@ export class HistoryService {
           take:1
         }) 
         return data[0] || undefined
+      }
+
+      async getDshboard(user: String,date:string) : Promise<any | undefined> {
+        // let data = await this.historyRepository
+        //                         .createQueryBuilder()
+        //                           .select("Count(date) as value,date as label")
+        //                           .where({user:user.toString()})
+        //                           .groupBy("date")
+        //                           .getRawMany()
+
+        console.log(user,date)
+        let todayCount = await this.historyRepository.count({where:{user:user.toString(),date}})
+        let totalCoin = await this.coinService.getCoinByUserId(user)
+        const DAILY_TSK_COUNT = 20 
+        return {
+          my:{
+            todayCount,
+            totalCoin,
+            taskCompleted: todayCount >= DAILY_TSK_COUNT,
+            todayCoin: todayCount >= DAILY_TSK_COUNT ? todayCount : 0,
+          },
+          referral:{
+            todayCount:0,
+            totalCoin:0,
+            taskCompleted: 0,
+            todayCoin: 0,
+          }
+        }
       }
 }

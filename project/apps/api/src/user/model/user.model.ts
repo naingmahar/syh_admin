@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, AfterInsert } from 'typeorm';
 
 @Entity()
 export class User {
@@ -23,6 +23,11 @@ export class User {
   @Column({nullable:true})
   phone: string;
 
+  @Column()
+  referral: string;
+
+  @Column({})
+  my_referral: string;
 
   @Column({nullable:true})
   password: string;
@@ -39,5 +44,6 @@ export class User {
 
   @Column()
   token: string;
+
 
 }
