@@ -15,6 +15,12 @@ export class UserController {
       return this.userService.createUser(createAdminDto);
     }
 
+    @Post("/delete")
+    @ApiOperation({ summary: 'Account Delete' })
+    accountDelete(@Body() deleteUserDto:{id:number,phone:string}) {
+      return this.userService.deleteUser(deleteUserDto.id,deleteUserDto.phone);
+    }
+
     @Get()
     @ApiOperation({ summary: 'User Login' })
     getUser(@Query() query:IFindUser) {

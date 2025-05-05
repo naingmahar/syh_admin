@@ -27,6 +27,11 @@ export class UserService {
         const res= await this.authService.generateToken(saveUser.name,String(saveUser.id),saveUser.phone)
         return {...saveUser,...{token:res.access_token}}
       }
+
+      async deleteUser(user_id:number,phone:string): Promise<any>{
+        const saveUser =  await this.usersRepository.delete({id:user_id,phone});
+        return saveUser
+      }
     
     
       async findOne(query:IFindUser): Promise<User | undefined> {
