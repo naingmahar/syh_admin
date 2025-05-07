@@ -1,15 +1,24 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ELABELS } from "../../assets/static_string"
 import BasicInput from "../../componet/atoms/Input/BasicInput"
 import ResponsiveButton from "../../componet/atoms/button/responsiveButton"
 import { useLogin } from "../../feature/query/login/Login"
 import { useNavigate } from "react-router-dom"
+import { useGetAllCategories, useGetAllFakes } from "../../feature/query/products/getAllProducts"
 
 const LoginPage = () =>{
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     // const [error,setError] = useState("");
+
+    const getAllCategories = useGetAllCategories();
+    const getAllFake = useGetAllFakes();
+    useEffect(()=>{
+        getAllCategories.mutate()
+        getAllFake.mutate()
+    },[])
+
 
     const navigate = useNavigate();
 

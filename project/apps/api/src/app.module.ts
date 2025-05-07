@@ -22,10 +22,10 @@ import { RefrralModule } from './refrral/refrral.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'ls-560afc17c7edd1842038e3fbd47d464cbc449bf3.cadzrzf9bfop.ap-southeast-1.rds.amazonaws.com',
+      host: 'ls-da8fe443327722858b7ee303bca19b69421913aa.cta4g00eiv1j.ap-southeast-1.rds.amazonaws.com',
       port: 3306,
       username: 'dbmasteruser',
-      password: 'sY#duP7^[Oz!Gk+0F4$yC+M5Md,2<&C3',
+      password: '}VY5OXff;+;c{>9VB5Dy`_M#-[0hW(SQ',
       database: 'SYH_DB',
       entities: [Admin],
       synchronize: true,

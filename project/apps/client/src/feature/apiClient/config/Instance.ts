@@ -7,6 +7,11 @@ export const instance = axios.create({
     timeout: 10000,
 });
 
+export const testInstance = axios.create({
+  baseURL: "https://fake-json-api.mock.beeceptor.com",
+  timeout: 10000,
+});
+
 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
