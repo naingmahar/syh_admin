@@ -1,6 +1,7 @@
 import { atom, selector } from "recoil";
 import { IProduct } from "../../types/models/IProducts";
 import { IAPICreateShop,  ICreateShopState } from "../../types/models/ICreateShop";
+import { IBook } from "../../types/models/IBook";
 
 const selectedTableRow = atom<{ index: number, data: IProduct } | undefined>({
   key: "SelectedTableRow",
@@ -8,7 +9,7 @@ const selectedTableRow = atom<{ index: number, data: IProduct } | undefined>({
 });
 
 const selectedDynamicTableRow = atom<{ index: number, data: any } | undefined>({
-  key: "SelectedTableRow",
+  key: "SelectedDynamicTableRow",
   default: undefined
 });
 
@@ -54,7 +55,12 @@ const shopState = atom<IAPICreateShop>({
   default: undefined
 });
 
+const booksState = atom<IBook[]>({
+  key: "books",
+  default: []
+});
 
-export { selectedTableRow, shopAndProductState, shoppingCartState, productDetailsState, getShoppingCartCountState, selectedDynamicTableRow,shopState }
+
+export { booksState,selectedTableRow, shopAndProductState, shoppingCartState, productDetailsState, getShoppingCartCountState, selectedDynamicTableRow,shopState }
 
 

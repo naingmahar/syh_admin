@@ -8,7 +8,7 @@ const PublicTopNavBar:FC<{children?: ReactNode}> = (props) =>{
             <div className="navbar">
                 <div className="flex flex-1">
                     <Logo />
-                    <a className="btn btn-ghost normal-case text-xl text-white">PicoShop</a>
+                    <a className="btn btn-ghost normal-case text-xl text-white">Shwe Ywet Hla</a>
                 </div>
                 {props.children}
             </div>

@@ -22,6 +22,10 @@ import { SettingPage } from './pages/Setting';
 // import { Terminal } from './pages/products/public/terminal';
 import CategoriesPage from './pages/categories';
 import { CreateCategories } from './pages/categories/CreateCategories';
+import BookPage from './pages/Book';
+import BookListPage from './pages/Book/list';
+import BookDetailsPage from './pages/Book/bookDetails';
+import DashboardScreen from './pages/Dashboard';
 
 
 const queryClient = new QueryClient()
@@ -43,8 +47,13 @@ function App() {
               <Route path="products/create" element={<ProductCreatePage />} />
             </Route> */}
 
-            <Route path='/owner'  element={<Navigate to="/owner/products" />} />
+            {/* <Route path='/owner'  element={<Navigate to="/owner/products" />} /> */}
             <Route path='/owner/*' element={<PrivateRoute><NavBar /></PrivateRoute>}> 
+              <Route path='' element={<Navigate to="/owner/dashboards" />} />
+              <Route path='dashboards' element={<DashboardScreen />} />
+              <Route path='book' element={<BookPage />} />
+              <Route path='books' element={<BookListPage />} />
+              <Route path='books/:id' element={<BookDetailsPage />} />
               <Route path='quiz' element={<ProductList />} />
               <Route path='quiz/create' element={<ProductCreatePage />} />
               <Route path='categories' element={<CategoriesPage />} />

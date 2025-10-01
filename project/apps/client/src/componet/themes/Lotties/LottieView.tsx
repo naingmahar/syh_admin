@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import shopLoaderLottie from "./animation/shop_loader_lottie.json";
+import shopLoaderLottie from "./animation/Book.json";
 import { FC } from "react";
 
 interface IProps {

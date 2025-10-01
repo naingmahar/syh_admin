@@ -14,14 +14,14 @@ const ImgPreview = (props:{url:string,onDelete:()=>void}) => {
 }
 
 
-export const IconPreview = (props:{name:EFileIcons}) => {
+
+export const IconPreview = (props:{name:EFileIcons,id:string}) => {
     return(
-        <div id="form-file-upload" className="flex justify-center items-center">
+        <div id={props.id} className="form-file-upload flex justify-center items-center">
             <FileIcon name={props.name} />
         </div>
     )
 }
-
 
 
 export default ImgPreview;

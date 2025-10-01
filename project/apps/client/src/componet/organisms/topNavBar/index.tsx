@@ -79,7 +79,7 @@ const TopNavBar:FC<{children?: ReactNode}> = (props) =>{
       <div className="navbar">
         <div className="flex-none">
           <Logo />
-          <span><a className="btn btn-ghost normal-case text-xl text-white">PicoShop</a></span>
+          <span><a className="btn btn-ghost normal-case text-xl text-white">Shwe Ywet Hla</a></span>
         </div>
         {props.children}
         <div className="flex-none gap-2">

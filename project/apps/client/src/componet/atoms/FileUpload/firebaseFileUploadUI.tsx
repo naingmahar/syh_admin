@@ -2,12 +2,19 @@ import React, { useEffect } from "react";
 import "./file.css"
 import { Icon, IconKey } from "../icons";
 // import ImgPreview, { IconPreview } from "./ImagePreview";
-import { uploadImage } from "../../../feature/apiClient/Common";
 import { RowContainer } from "../Container/FlexContainer";
 import { EFileIcons } from "./FileIcon";
 import { IconPreview } from "./ImagePreview";
+import { FirebaseUploadFile } from "../../../utils/firebaseFileUpload";
 
-const FileUpload = (props:{onChange:(img:[string])=>any,value?:[{url:string}],onFinshed:(message:string,isError:boolean)=>any}) => {
+interface FirebaseFileUploadUIProps {
+    value?: {url:string}[];
+    onChange: (value: string[]) => void;
+    onFinshed:(message:string,isError:boolean)=>void;
+    fieldName:string;
+}   
+
+const FirebaseFileUploadUI = (props:FirebaseFileUploadUIProps) => {
 
     const inputRef = React.useRef<React.LegacyRef<HTMLInputElement>| any>(null);
     const [dragActive, setDragActive] = React.useState(false);
@@ -65,21 +72,29 @@ const FileUpload = (props:{onChange:(img:[string])=>any,value?:[{url:string}],on
 
             setIconName(icon)
 
-            console.log("DATA",fileNameArr,icon)
-
-            const formData = new FormData();
-            formData.append("file", element);
-            formData.append("path", "operation");
-            formData.append("type", element.type);
-            formData.append("key", Date.now()+"."+String(element.type).split("/")[1]);
 
             setLoading(true);
             setFile([])
-            uploadImage(formData).then(data=>{
-                props.onChange(data)
-                setPreviewImage(element);
-                setLoading(false)
-            })
+            FirebaseUploadFile(
+                element,
+                String(Date.now()),
+                element.type.split("/")[0],
+                (loadingPercent, downloadUrl, err) => {
+                    if (err) {
+                        console.error("Upload error:", err);
+                        setLoading(false);
+                        props.onFinshed("Failed Upload",true)
+                    } else if (downloadUrl) {
+                        console.log("File uploaded successfully. Download URL:", downloadUrl);
+                        props.onChange([downloadUrl])
+                        setPreviewImage(element);
+                        setLoading(false)
+                    } else {
+                        console.log(`Upload is ${loadingPercent}% done`);
+                    }
+                }
+            );
+
         }
     }
 
@@ -121,23 +136,26 @@ const FileUpload = (props:{onChange:(img:[string])=>any,value?:[{url:string}],on
     
     return (
         <div className="flex flex-1">
-            <form id="form-file-upload" onDragEnter={handleDrag} onSubmit={(e) => e.preventDefault()}>
-                <input ref={inputRef} type="file" id="input-file-upload" multiple={true} onChange={(e)=>handleChange(e)} />
-                <label id="label-file-upload" htmlFor="input-file-upload" className={dragActive ? "drag-active" : "" }>
+            <form id={"form-file-upload-"+props.fieldName} className={"form-file-upload"} onDragEnter={handleDrag} onSubmit={(e) => e.preventDefault()}>
+                <input ref={inputRef} type="file" id={"input-file-upload-"+props.fieldName} className="input-file-upload" multiple={true} onChange={(e)=>handleChange(e)} />
+                <label 
+                    id={"label-file-upload-"+props.fieldName} 
+                    htmlFor={"input-file-upload-"+props.fieldName} 
+                    className={dragActive ? "label-file-upload drag-active" : "label-file-upload" }>
                     <Icon icon={IconKey.addIcon} active />
                 </label>
-                { dragActive && <div id="drag-file-element" onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}></div> }
+                { dragActive && <div className="drag-file-element" id={"drag-file-element-"+props.fieldName} onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}></div> }
             </form> 
             {
-                files.map(()=>(
-                    <IconPreview name={iconName} id={""} />
+                files.map((_row,index)=>(
+                    <IconPreview name={iconName} key={index} id={"form-file-upload-"+props.fieldName}/>
                     // <FileIcon name={iconName} />
                     //  <ImgPreview key={index}  url={url} onDelete={() => onRemoveImage(index)} />
                 ))
             }
             {
                 isUploading && (
-                    <div id="form-file-upload">
+                    <div id={"form-file-upload-"+props.fieldName} className="form-file-upload absolute bg-white bg-opacity-70">
                         <RowContainer className="justify-center items-center h-full border-2 rounded-xl">
                             <span className="loading loading-spinner loading-lg text-slate-500"></span>
                         </RowContainer>
@@ -149,4 +167,4 @@ const FileUpload = (props:{onChange:(img:[string])=>any,value?:[{url:string}],on
     )
 }
 
-export default FileUpload
+export default FirebaseFileUploadUI

@@ -2,15 +2,28 @@ import { useEffect, useState } from "react"
 import { ELABELS } from "../../assets/static_string"
 import BasicInput from "../../componet/atoms/Input/BasicInput"
 import ResponsiveButton from "../../componet/atoms/button/responsiveButton"
-import { useLogin } from "../../feature/query/login/Login"
 import { useNavigate } from "react-router-dom"
 import { useGetAllCategories, useGetAllFakes } from "../../feature/query/products/getAllProducts"
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../utils/firebase"
+import { Storage, STORAGE_KEY } from "../../feature/storage/localstorage"
+import { StoreUserInfo } from "../../feature/storage/UserStorage"
+// ...
 
 const LoginPage = () =>{
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     // const [error,setError] = useState("");
+
+    // const handleSignUp = async (email:string, password:string) => {
+    //     try {
+    //       await createUserWithEmailAndPassword(auth, email, password);
+    //       // User created successfully
+    //     } catch (error) {
+    //       // Handle errors (e.g., email already in use)
+    //     }
+    //   };
 
     const getAllCategories = useGetAllCategories();
     const getAllFake = useGetAllFakes();
@@ -34,16 +47,27 @@ const LoginPage = () =>{
         return true
     }
 
-    const { mutate, isLoading } = useLogin();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.warn({email,password})
         if(validate()) {
-            mutate({email,password},{onSuccess:()=>{
-                console.log("LOGIN ACTION ")
-                navigate("/owner/quiz")
-            }})
+            try {
+                signInWithEmailAndPassword(auth, email, password).then((userCredential) => {    
+                    const user = userCredential.user;
+                    console.log("USER CREDENTIAL ",user)
+                    Storage.setItem(STORAGE_KEY.token,user.refreshToken);
+                    StoreUserInfo(user as any);
+                    navigate("/owner/book")
+                })
+                // User created successfully
+              } catch (error) {
+                // Handle errors (e.g., email already in use)
+            }
+            // mutate({email,password},{onSuccess:()=>{
+            //     console.log("LOGIN ACTION ")
+            //     navigate("/owner/quiz")
+            // }})
         };
     };
 
@@ -60,7 +84,7 @@ const LoginPage = () =>{
                         <BasicInput type="password" onChange={(val)=>{setPassword(val)}} label={ELABELS.password} placeholder={ELABELS.passwordPlaceholder} />
                         <ResponsiveButton 
                             label={ELABELS.login} 
-                            isLoading={isLoading}
+                            isLoading={false}
                             onPress={(e)=>handleSubmit(e)} 
                             labelClass="text-white"
                             className='my-5 bg-primary' />

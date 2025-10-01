@@ -10,7 +10,7 @@ const HomeTopNavBar = () =>{
             <div className="navbar">
                 <div className="flex flex-1">
                     <Logo />
-                    <a className="btn btn-ghost normal-case text-xl text-white">PicoShop</a>
+                    <a className="btn btn-ghost normal-case text-xl text-white">Shwe Ywet Hla</a>
                 </div>
                 <div>
                     <button className="btn px-5 me-3 bg-zinc-800 border-zinc-800" onClick={()=>{navigate("/login")}}>

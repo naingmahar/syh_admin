@@ -6,9 +6,10 @@ import InputLabel from "../../atoms/Input/InputLabel";
 import FileUpload from "../../atoms/FileUpload";
 import FormTextArea from "../../atoms/Input/formTextarea";
 import {  SelectBox } from "../../atoms/DropDown";
+import FirebaseFileUploadUI from "../../atoms/FileUpload/firebaseFileUploadUI";
 
 export interface IFormField {
-    type:"text"|"image"|"dropdown"|"silder"|"textarea",
+    type:"text"|"image"|"dropdown"|"silder"|"textarea"|"firebaseFileUpload",
     label:ELABELS,
     icon:IconKey,
     placeholder?:ELABELS,
@@ -93,11 +94,25 @@ const CoCoForm =React.forwardRef<ICoCoFormRef,ICoCoFormProps>((props, ref) => {
         )
     }
 
+    const firebaseFileUploadGenerator = (param:IFormField) => {
+        return(
+            <div key={param.fieldName} className="mb-5" >
+                <InputLabel icon={param.icon} label={param.label}  />
+                <p className="label-text">{param.description}</p>
+                {/* @ts-ignore */}
+                <FirebaseFileUploadUI  value={param.value} onChange={(val)=>{setFieldData(param.fieldName,val)}}  fieldName={param.fieldName}/>
+                {/* <FileUpload value={param.value} onChange={(val)=>{setFieldData(param.fieldName,val)}} /> */}
+            </div>
+        )
+    }
+
+
     const formManager = (param:IFormField) => {
         if(param.type === "text") return textfiledGenerator(param)
         if(param.type === "image") return fileUploadGenerator(param)
         if(param.type === "textarea") return textArea(param)
         if(param.type === "dropdown") return categoryDropDown(param)
+        if(param.type === "firebaseFileUpload") return firebaseFileUploadGenerator(param)
         return <div />
     } 
 

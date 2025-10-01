@@ -1,16 +1,18 @@
 // import { IProduct } from "../../../types/models/IProducts"
-// import { BasicTableRow, 
-//     // CheckTableRow 
-// } from "../../atoms/tableItem/tRow"
+import { BasicTableRow, 
+    // CheckTableRow 
+} from "../../atoms/tableItem/tRow"
 
-// export type BasicTableBodyType<T> = Array<{
-//     type: "string" | "image" |"changeStatus"
-//     className?: string,
-//     itemKey: string,
-//     alt?: string,
-//     action?:{onChange: (status:"approved"|"rejected") =>any}
-//     customDataFunc?:(data:T)=>any
-// }>
+export type BasicTableBodyType<T> = Array<{
+    type: "string" | "image" |"changeStatus"|"link"|"details"|"delete",
+    className?: string,
+    detailsLink?: (data:T)=>string,
+    deleteAction?:(data:T)=>any,
+    itemKey: string,
+    alt?: string,
+    action?:{onChange: (status:"approved"|"rejected") =>any}
+    customDataFunc?:(data:T)=>any
+}>
 // export const CheckTableBody = (props: { data: IProduct[] }) => {
 //     return (
 //         <tbody>
@@ -25,16 +27,16 @@
 //     )
 // }
 
-// export function BasicTableBody<T>(props: { data: T[], types: BasicTableBodyType<T> }) {
-//     return (
-//         <tbody>
-//             {
-//                 props.data.map((row, index) => {
-//                     return (
-//                         <BasicTableRow key={index} data={row} index={index} types={props.types} />
-//                     )
-//                 })
-//             }
-//         </tbody>
-//     )
-// } 
+export function BasicTableBody<T>(props: { data: T[], types: BasicTableBodyType<T> }) {
+    return (
+        <tbody>
+            {
+                props.data.map((row, index) => {
+                    return (
+                        <BasicTableRow key={index} data={row} index={index} types={props.types} />
+                    )
+                })
+            }
+        </tbody>
+    )
+} 

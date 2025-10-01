@@ -39,7 +39,20 @@ export enum IconKey {
     greaterThan="GreaterIcon",
     lessThan="LessIcon",
     pending="PendingIcon",
-    question="QuestionICon"
+    question="QuestionICon",
+    book="BookIcon",
+    language="LanguageIcon",
+    isbn="ISBNIcon",
+    author="BookAuthorIcon",
+    publishedDate="PublishedDateIcon",
+    numberOfPages="NumberOfPagesIcon",
+    publisher="PublisherIcon",
+    description="DescriptionIcon",
+    genre="GenreIcon",
+    coverImageUrl="coverImageUrlIcon",
+    // priceTag="PriceTagIcon",  
+    pdf="PdfIcon",  
+    dashboard="DashboardIcon",
 }
 
 
